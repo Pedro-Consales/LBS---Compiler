@@ -12,13 +12,13 @@ void gera_codigo (FILE *f, unsigned char code[], funcp *entry)
     //percorre o arquivo
     unsigned char linha[255];
     int index_code = 0; // índice para preencher o vetor code_buf[] -> está alocado aqui para eu usar depois do while para garantir no debbug que o code está correto.
+    int code_pos = 0; // índice para preencher o vetor code[]
 
     while (fscanf(f, " %[^\n]", linha) == 1)
     {
         printf("\n------------ Linha lida: %s -------------\n\n", linha);
         unsigned char *linha_parsed = strtok(linha, " ");  // função que faz split da string em um vetor (achei na internet) -> Ele retorna a primeira palavra da linha e ao final faz outro comando que pula para a próxima palavra
     
-        int code_pos = 0; // índice para preencher o vetor code[]
 
         while (linha_parsed != NULL) { // enquanto houver palavras na linha
             printf("Entrei no while com linha_parsed != NULL: --> linha_parsed = !%s!\n", linha_parsed);
@@ -55,6 +55,10 @@ void gera_codigo (FILE *f, unsigned char code[], funcp *entry)
                 index_code += sizeof(code_buf);
                 printf("\nCode parou no index: %d\n\n", index_code);
                 printf("!!!!!!!%s gravado com sucesso no vetor code[]\n!!!!!!!", linha_parsed);
+            }
+            else if()
+            {
+
             }
             else {
                 printf("Palavra não reconhecida: %s\n", linha_parsed);
