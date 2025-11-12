@@ -1,0 +1,4 @@
+function
+v0 = $100
+ret v0
+end
