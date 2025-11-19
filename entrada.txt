@@ -1,3 +1,6 @@
 function
-ret $100
+ret v2
+end
+function
+ret v1
 end
