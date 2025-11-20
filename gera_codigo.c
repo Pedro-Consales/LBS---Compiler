@@ -27,6 +27,10 @@ HeadFuncs* criaLista()
     return lista;
 }
 
+int offset_var(int n) {
+    return -4 * (n + 1);   // v0=-4, v1=-8, ....
+}
+
 void insere(HeadFuncs *raiz, int endereco_fun, int *num_fun) {
 
     if (raiz->func == NULL) { //Não tem ngm, aloca o priemiro
@@ -220,45 +224,59 @@ void gera_codigo (FILE *f, unsigned char code[], funcp *entry)
                                 char var;
                                 if (fscanf(f, " %c", &var) == 1) { // lê até \n
                                     printf(" ------ Restante da variavel : %c ---- \n", var);
+                                    
+                                    if (var < '0' || var > '4') {
+                                        printf("Variavel nao suportada: v%c\n", var);
+                                        break;
+                                    }
 
-                                    if (var == '0') { //ebx -> eax
-                                        printf("Entrou no if de !v0!\n");
-                                        unsigned char code_buf[] = { // Já que só podem 5 variáveis e tem que necessáriamente guarduardar em RA eu só vou usar called-save registers
-                                            0x89, 0xd8 //mov %ebx, %eax
-                                        };
-                                        grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
-                                    } 
-                                    else if (var == '1') {//r12d -> eax
-                                        printf("Entrou no if de !v1!\n");
-                                        unsigned char code_buf[] = { // Já que só podem 5 variáveis e tem que necessáriamente guarduardar em RA eu só vou usar called-save registers
-                                            0x89, 0xe0 //mov %ebx, %eax
-                                        };
-                                        grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
-                                    } 
-                                    else if (var == '2') {//r13d -> eax
-                                        printf("Entrou no if de !v2!\n");
-                                        unsigned char code_buf[] = { // Já que só podem 5 variáveis e tem que necessáriamente guarduardar em RA eu só vou usar called-save registers
-                                            0x89, 0xe8 //mov %ebx, %eax
-                                        };
-                                        grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
-                                    } 
-                                    else if (var == '3') {//r14d -> eax
-                                        printf("Entrou no if de !v3!\n");
-                                        unsigned char code_buf[] = { // Já que só podem 5 variáveis e tem que necessáriamente guarduardar em RA eu só vou usar called-save registers
-                                            0x89, 0xf0 //mov %ebx, %eax
-                                        };
-                                        grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
-                                    }
-                                    else if (var == '4') {//r15d -> eax
-                                        printf("Entrou no if de !v4!\n");
-                                        unsigned char code_buf[] = { // Já que só podem 5 variáveis e tem que necessáriamente guarduardar em RA eu só vou usar called-save registers
-                                            0x89, 0xf8 //mov %ebx, %eax
-                                        };
-                                        grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
-                                    }
-                                    else {
-                                        printf("Variavel nao suportado no momento: %c\n", var);
-                                    }
+                                    int var_buff = var - '0'; // Converte char para int (Não da para fazer type casting direto)
+                                    int offset = offset_var(var_buff); // Função que retorna o offset da variável no RA 
+                                    printf("Offset da variável v%c: %0x2\n", var, offset);
+                                    signed char offset_buf = (signed char)offset;
+                                    unsigned char code_buf[] = { // Já que só podem 5 variáveis e tem que necessáriamente guarduardar em RA eu só vou usar called-save registers
+                                        0x8b, 0x45, offset_buf
+                                    };
+                                    grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
+
+                                    // if (var == '0') { //ebx -> eax
+                                    //     printf("Entrou no if de !v0!\n");
+                                    //     unsigned char code_buf[] = { // Já que só podem 5 variáveis e tem que necessáriamente guarduardar em RA eu só vou usar called-save registers
+                                    //         0x8b, 0x45, 0xfc //mov %ebx, %eax
+                                    //     };
+                                    //     grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
+                                    // } 
+                                    // else if (var == '1') {//r12d -> eax
+                                    //     printf("Entrou no if de !v1!\n");
+                                    //     unsigned char code_buf[] = { // Guardo direto no RA
+                                    //         0x8b, 0x45, 0xf8 
+                                    //     };
+                                    //     grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
+                                    // } 
+                                    // else if (var == '2') {//r13d -> eax
+                                    //     printf("Entrou no if de !v2!\n");
+                                    //     unsigned char code_buf[] = { // Já que só podem 5 variáveis e tem que necessáriamente guarduardar em RA eu só vou usar called-save registers
+                                    //         0x8b, 0x45, 0xf4
+                                    //     };
+                                    //     grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
+                                    // } 
+                                    // else if (var == '3') {//r14d -> eax
+                                    //     printf("Entrou no if de !v3!\n");
+                                    //     unsigned char code_buf[] = { // Já que só podem 5 variáveis e tem que necessáriamente guarduardar em RA eu só vou usar called-save registers
+                                    //         0x8b, 0x45, 0xf0
+                                    //     };
+                                    //     grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
+                                    // }
+                                    // else if (var == '4') {//r15d -> eax
+                                    //     printf("Entrou no if de !v4!\n");
+                                    //     unsigned char code_buf[] = { // Já que só podem 5 variáveis e tem que necessáriamente guarduardar em RA eu só vou usar called-save registers
+                                    //         0x8b, 0x45, 0xec
+                                    //     };
+                                    //     grava_bytes(code, code_buf, &code_pos,sizeof(code_buf));
+                                    // }
+                                    // else {
+                                    //     printf("Variavel nao suportado no momento: %c\n", var);
+                                    // }
 
                                 } else {
                                     printf("Nao consegui ler o registrador apos 'v'\n");
@@ -277,6 +295,7 @@ void gera_codigo (FILE *f, unsigned char code[], funcp *entry)
                 printf("\n-------------------------------------\n\n");
                 break;
             }
+            //case 'v'
 
             default:
                 break;
