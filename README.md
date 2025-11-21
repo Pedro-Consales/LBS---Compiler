@@ -1,5 +1,5 @@
 # LBS---Compiler
-LBS is a generic programming language that needed to be compiled for an assignment at PUCRio; this repository contains a C implementation of a JIT-style compiler/runner for that language.
+LBS is a generic programming language that needed to be compiled for an assignment at PUC-Rio; this repository contains a C implementation of a JIT-style compiler/runner for that language.
 
 ## Architecture and goal
 - **Front-end:** `main_comp.c` is a small driver that opens an LBS source file, reads an optional integer argument, and delegates translation to `gera_codigo` before invoking the generated function pointer.
@@ -28,13 +28,20 @@ Execute by passing the LBS source path and, optionally, the integer argument con
 ## Available test programs
 Each `ex*.txt` file holds a standalone LBS program that you can feed to the compiler:
 
-- **`ex1_lbs.txt`** – Single function returning the constant 100 via `ret $100` for a zero-argument program.【F:ex1_lbs.txt†L1-L4】
-- **`ex2_lbs_ret_constante.txt`** – Adds a constant (100) to zero and returns the result, exercising variable assignment and `ret v0`.【F:ex2_lbs_ret_constante.txt†L1-L4】
-- **`ex3_lbs_func.txt`** – Demonstrates parameter usage: computes `p0 + 1` and returns it.【F:ex3_lbs_func.txt†L1-L4】
-- **`ex4_lbs_count_combination.txt`** – Performs a two-step arithmetic expression: doubles `p0`, adds 3, and returns the sum.【F:ex4_lbs_count_combination.txt†L1-L5】
-- **`ex5_lbs_zret_cost.txt`** – Uses `zret` to return 42 when `p0 + 0` equals zero; otherwise returns 99, showing conditional early exit.【F:ex5_lbs_zret_cost.txt†L1-L6】
-- **`ex6_lbs_fat.txt`** – Recursive factorial-like pattern: base case returns 1 when `p0` is zero, otherwise decrements `p0`, recursively calls itself, multiplies, and returns the product.【F:ex6_lbs_fat.txt†L1-L9】
-- **`ex7_lbs_call_const_chain.txt`** – Two functions: the first returns `7 + 0`, the second calls the first, adds the argument again, and returns, illustrating cross-function calls.【F:ex7_lbs_call_const_chain.txt†L1-L9】
-- **`ex8_lbs_sqaure_sum.txt`** – Two functions implementing square-and-sum: function 0 squares its input; function 1 checks for zero, decrements, recursively sums previous square with current square, and returns the accumulated value.【F:ex8_lbs_sqaure_sum.txt†L1-L12】
+- **`ex1_lbs.txt`** – Single function returning the constant 100 via `ret $100` for a zero-argument program.
+
+- **`ex2_lbs_ret_constante.txt`** – Adds a constant (100) to zero and returns the result, exercising variable assignment and `ret v0`.
+
+- **`ex3_lbs_func.txt`** – Demonstrates parameter usage: computes `p0 + 1` and returns it.
+
+- **`ex4_lbs_count_combination.txt`** – Performs a two-step arithmetic expression: doubles `p0`, adds 3, and returns the sum.
+
+- **`ex5_lbs_zret_cost.txt`** – Uses `zret` to return 42 when `p0 + 0` equals zero; otherwise returns 99, showing conditional early exit.
+
+- **`ex6_lbs_fat.txt`** – Recursive factorial-like pattern: base case returns 1 when `p0` is zero, otherwise decrements `p0`, recursively calls itself, multiplies, and returns the product.
+
+- **`ex7_lbs_call_const_chain.txt`** – Two functions: the first returns `7 + 0`, the second calls the first, adds the argument again, and returns, illustrating cross-function calls.
+
+- **`ex8_lbs_sqaure_sum.txt`** – Two functions implementing square-and-sum: function 0 squares its input; function 1 checks for zero, decrements, recursively sums previous square with current square, and returns the accumulated value.
 
 Feed any of these paths to the compiled executable to validate the generator and runtime.
