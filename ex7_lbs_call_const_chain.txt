@@ -1,0 +1,9 @@
+function
+v0 = $7 + $0
+ret v0
+end
+function
+v0 = call 0 p0
+v1 = v0 + p0
+ret v1
+end
