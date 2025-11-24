@@ -1,4 +1,5 @@
 //Pedro Consales Margaronis - 2410238 - 3WB
+//David Miodownik Rabe - 2410522 - 3WB
 
 
 #include <stdio.h>
@@ -440,7 +441,7 @@ void gera_codigo (FILE *f, unsigned char code[], funcp *entry)
                                         exit(1);
                                     }
                                     printf("Argumento de call: constante %d\n", val);
-                                    // mov $imm32, %edi  => bf imm32
+                                    
                                     unsigned char buf[5];
                                     buf[0] = 0xbf;
                                     buf[1] = (unsigned char)(val & 0xff);
@@ -734,7 +735,7 @@ void gera_codigo (FILE *f, unsigned char code[], funcp *entry)
     
                 printf("Achei a palavra !zret!\n\n");
     
-                /* --------- Primeiro varpc (condição) --------- */
+                
                 char sym1;
                 int r1 = le_char_mesma_linha(f, &sym1);
                 if (r1 != 1) {
@@ -802,18 +803,17 @@ void gera_codigo (FILE *f, unsigned char code[], funcp *entry)
                         exit(1);
                 }
     
-                /* --------- test %eax,%eax + jne --------- */
+                /*  %eax,%eax + jne*/
     
                 // test %eax,%eax  (85 c0)
                 unsigned char test_buf[] = { 0x85, 0xc0 };
                 grava_bytes(code, test_buf, &code_pos, sizeof(test_buf));
     
-                // jne Lcontinuar  (0f 85 disp32) com disp32 placeholder
+                // jne continuar  (0f 85 disp32) com disp32 placeholder
                 int pos_jne = code_pos;  // posição do 0f
                 unsigned char jne_buf[] = { 0x0f, 0x85, 0x00, 0x00, 0x00, 0x00 };
                 grava_bytes(code, jne_buf, &code_pos, sizeof(jne_buf));
     
-                /* --------- Segundo varpc (valor de retorno) --------- */
     
                 char sym2;
                 int r2 = le_char_mesma_linha(f, &sym2);
