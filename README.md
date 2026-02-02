@@ -1,5 +1,5 @@
 # LBS---Compiler
-LBS is a generic programming language that needed to be compiled for an assignment at PUC-Rio; this repository contains a C implementation of a JIT-style compiler/runner for that language.
+LBS is a generic programming language introduced as an assignment at PUC-Rio; this repository contains a C implementation of a JIT-style compiler/runner for that language.
 
 ## Architecture and goal
 - **Front-end:** `main_comp.c` is a small driver that opens an LBS source file, reads an optional integer argument, and delegates translation to `gera_codigo` before invoking the generated function pointer.
