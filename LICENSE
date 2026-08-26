@@ -1,15 +1,14 @@
 Copyright (c) 2025 Pedro Consales.
 All rights reserved.
 
-Permission is granted to download and clone this repository solely for the purpose of viewing, running, and testing the Software in a personal, local environment.
+Permission is granted to download and clone this repository solely for the purpose of viewing, running, contributing and testing the Software.
 
 No other rights are granted. Without prior written authorization from the copyright holder, you may NOT:
 
 - use the Software in any project, product, or service;
 - copy or redistribute the Software beyond your personal local machine;
-- modify, adapt, translate, or create derivative works based on the Software;
 - incorporate any part of the Software into other codebases or systems;
-- use the Software commercially, academically, or in research;
+- use the Software commercially or academically
 - publish, disclose, or make the Software accessible to third parties.
 
 Any use, reference, or inspiration derived from this Software requires explicit attribution to the original repository and author:
